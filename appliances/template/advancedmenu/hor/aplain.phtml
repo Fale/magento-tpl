@@ -1,0 +1,71 @@
+<?php
+/**
+ * aheadWorks Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://ecommerce.aheadworks.com/LICENSE-M1.txt
+ *
+ * @category   AW
+ * @package    AW_Advancedmenu
+ * @copyright  Copyright (c) 2009-2010 aheadWorks Co. (http://www.aheadworks.com)
+ * @license    http://ecommerce.aheadworks.com/LICENSE-M1.txt
+ */
+?>
+<?php $_isFirst = true; ?>
+<?php $_isLevelOne = false; ?>
+<div class="<?php if ($this->checkVersion('1.4.0.0')): ?>header <?php endif; ?>aw-hapln-header-nav-container aw-am-body">
+    <div class="aw-hapln-header-nav">
+		<ul id="nav" class="aw-hapln-mnu<?php if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') === false): ?> clear<?php else: ?> am-ie-clear<?php endif; ?> aw-am-block"<?php if($this->getStyleId()): ?> id="<?php echo $this->getStyleId(); ?>"<?php endif; ?>>
+		<?php if (count( $this->getCategoriesData() )): ?>		
+		<?php foreach( $this->getCategoriesData() as $i ):  ?>
+			<?php if ( $i['level'] == 0 ): ?>
+				<?php if (!$_isFirst): ?>
+					<?php if ($_isLevelOne): ?>
+						</ul>			
+						</li>	
+						<?php $_isLevelOne = false; ?>
+					<?php endif; ?>															
+				</ul>	
+				<?php endif; ?>	
+				<li class="level<?php echo $i['level'];?> aw-am-level<?php echo $i['level'];?> nav-<?php if ($i['hasChildren']): echo " parent"; endif;?><?php if ( $i['current'] && $this->confMarkCurrent() ): echo " current"; endif;?><?php if ( $i['active'] && ($i['level'] == 0) && $this->confMarkCurrent() ): echo " active"; endif; ?>"<?php if ($i['hasChildren']):echo ' onmouseout="toggleMenu(this,0)" onmouseover="toggleMenu(this,1)"'; endif?> >
+				<a href="<?php echo $i['Url'];?>"><span><?php echo $i['name'];?></span></a>
+				<ul class="level0 aw-am-dropbox">						
+			<?php elseif ( $i['level'] == 1 ): ?>		
+				<?php if ($_isLevelOne): ?>	
+					</ul>
+					</li>
+					<li class="column">
+					<ul class="level1 aw-am-level1">
+				<?php else: ?>
+					<li class="column">
+					<ul class="level1 aw-am-level1">				
+				<?php endif; ?>
+				<li class="level<?php echo $i['level'];?> aw-am-level<?php echo $i['level'];?> nav-<?php if ($i['hasChildren']): echo " parent"; endif;?><?php if ( $i['current'] && $this->confMarkCurrent() ): echo " current"; endif;?>">
+					<a href="<?php echo $i['Url'];?>"><span><?php echo $i['name'];?></span></a>				
+				</li>												
+				<?php $_isLevelOne = true; ?>	
+			<?php else: ?>		
+				<li class="level<?php echo $i['level'];?> aw-am-level<?php echo $i['level'];?> nav-<?php if ($i['hasChildren']): echo " parent"; endif;?><?php if ( $i['current'] && $this->confMarkCurrent() ): echo " current"; endif;?>">
+					<a href="<?php echo $i['Url'];?>"><span><?php echo $i['name'];?></span></a>				
+				</li>															
+			<?php endif; ?>			
+			<?php $_isFirst = false; ?>
+		<?php endforeach; ?>
+		<?php endif; ?>
+		</ul>
+	</div>
+</div>
+<script type="text/javascript">
+    var toggleMenu = function(el, over){
+        if (over) {
+            Element.addClassName(el, 'over');
+        }
+        else {
+            Element.removeClassName(el, 'over');
+        }
+    }
+</script>

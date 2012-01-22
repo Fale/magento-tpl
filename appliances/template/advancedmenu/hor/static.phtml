@@ -1,0 +1,44 @@
+<?php
+/**
+ * aheadWorks Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://ecommerce.aheadworks.com/LICENSE-M1.txt
+ *
+ * @category   AW
+ * @package    AW_Advancedmenu
+ * @copyright  Copyright (c) 2009-2010 aheadWorks Co. (http://www.aheadworks.com)
+ * @license    http://ecommerce.aheadworks.com/LICENSE-M1.txt
+ */
+?>
+<?php $_isFirst = true; ?>
+<div class="<?php if ($this->checkVersion('1.4.0.0')): ?>header <?php endif; ?>aw-hstat-header-nav-container aw-am-body">
+    <div class="aw-hstat-header-nav">
+		<ul id="nav" class="aw-hstat-mnu<?php if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') === false): ?> clear<?php else: ?> am-ie-clear<?php endif; ?> aw-am-block"<?php if($this->getStyleId()): ?> id="<?php echo $this->getStyleId(); ?>"<?php endif; ?>>
+		<?php if ( count( $this->getCategoriesData() ) ): ?>
+		<?php foreach( $this->getCategoriesData() as $i ): ?>
+			<?php if ( $i['level'] == 0 ): ?>
+				<?php if (!$_isFirst):  ?>
+				</ul>
+				</li>												
+				<?php endif; ?>	
+				<li class="level<?php echo $i['level'];?> aw-am-level<?php echo $i['level'];?> nav-<?php if ($i['hasChildren']): echo " parent"; endif;?><?php if ( $i['active'] && $this->confMarkCurrent() ): echo " active"; endif;?>">
+				<a href="<?php echo $i['Url']; ?>"><span><?php echo $i['name']; ?></span></a>				
+				<ul class="level1 aw-am-level1">																	
+			<?php else: ?>	
+				<li  class="level<?php echo $i['level'];?> aw-am-level<?php echo $i['level'];?> nav-<?php if ($i['hasChildren']): echo " parent"; endif;?><?php if ( $i['current'] && $this->confMarkCurrent() ): echo " current"; endif;?>">
+					<a href="<?php echo $i['Url']; ?>"><span><?php echo $i['name']; ?></span></a>
+				</li>
+			<?php endif; ?>										
+			<?php $_isFirst = false; ?>	
+		<?php endforeach; ?>
+		<?php endif; ?>
+				</ul>
+			</li>			
+		</ul>
+	</div>
+</div>	

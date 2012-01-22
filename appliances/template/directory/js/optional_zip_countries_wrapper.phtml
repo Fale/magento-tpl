@@ -1,0 +1,9 @@
+<?php
+
+$_ver =  explode('.', Mage::getVersion()); 
+if ($_ver[0]*10+$_ver[1] > 13):
+ $this->getLayout()->createBlock('core/template')->setTemplate('directory/js/optional_zip_countries')->toHtml();
+endif;
+
+
+?>

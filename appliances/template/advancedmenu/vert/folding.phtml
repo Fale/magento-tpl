@@ -1,0 +1,105 @@
+<?php
+/**
+ * aheadWorks Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://ecommerce.aheadworks.com/LICENSE-M1.txt
+ *
+ * @category   AW
+ * @package    AW_Advancedmenu
+ * @copyright  Copyright (c) 2009-2010 aheadWorks Co. (http://www.aheadworks.com)
+ * @license    http://ecommerce.aheadworks.com/LICENSE-M1.txt
+ */
+?>
+<?php $_id = $this->getRandomId(); ?>
+<?php $_indiItems = $this->confIndiFolding(); ?>
+<?php $_expandActive = $this->confItemsExpanded(); ?>
+<?php $_isFirst = true; ?>
+<div class="aw-am-block aw-am-vfb">
+<div class="aw-vfld-mnu aw-am-body"<?php if($this->getStyleId()): ?> id="<?php echo $this->getStyleId(); ?>"<?php else: ?> id="<?php echo $_id; ?>"<?php endif; ?>>
+<?php foreach( $this->getCategoriesData() as $i ): ?>	
+	<?php if ( $i['level'] == 0 ): ?>
+		<?php $_expanded = ($_expandActive && $i['active']); ?>
+		<?php if (!$_isFirst): ?>
+		</ul>
+		<?php endif; ?>
+		<ul onclick="javascript: foldTrig(this, '<?php echo $i['Url']; ?>');">
+	<li class="level<?php echo $i['level'];?> aw-am-level<?php echo $i['level'];?>  nav-<?php if ($i['hasChildren']): echo " parent"; endif;?><?php if ( $i['active'] && ($i['level'] == 0) && $this->confMarkCurrent() ): echo " active"; endif; ?> <?php echo $_expanded?'expanded':'collapsed'; ?>" style="display:block; cursor:pointer;">
+		<a href="#" onclick="return false;"><span><?php echo $i['name'];?></span></a>
+	</li>			
+	<?php else: ?>			
+	<li class="level<?php echo $i['level'];?> aw-am-level<?php echo $i['level'];?>  nav-<?php if ($i['hasChildren']): echo " parent"; endif;?><?php if ( $i['current'] && $this->confMarkCurrent() ): echo " current"; endif;?>" style="display: <?php echo $_expanded ? 'block' : 'none'; ?>;" style="display:none; cursor:pointer;">
+		<a href="#" onclick="javascript:  foldTrig = function() {return false;};window.location='<?php echo $i['Url']; ?>';return false;"><span><?php echo $i['name'];?></span></a>
+	</li>
+	<?php endif; ?>					
+	<?php $_isFirst = false; ?>
+<?php endforeach; ?>
+<?php if ( count( $this->getCategoriesData() ) ): ?>
+	</ul>	
+<?php endif; ?>
+</div></div>
+<script type="text/javascript">
+	var foldTrig = function(obj, url) {
+
+		lis = document.getElementById('<?php echo $_id; ?>').getElementsByTagName('LI');
+		indiFolding = '<?php echo $this->confIndiFolding(); ?>';
+		if (!indiFolding || indiFolding == '0') {
+			if (lis) {
+				var len = lis.length;
+				for (x = 0; x < len; x++) 
+					if (lis[x].className.indexOf('level0') == -1) {
+						if (lis[x].parentNode != obj) 
+							lis[x].style.display = 'none';
+					}
+			}
+		}		
+		lis = obj.getElementsByTagName('LI');								
+		if (lis) {
+			var len = lis.length;
+			for (x = 0; x < len; x++){ 
+				if (lis[x].className.indexOf('level0') == -1) {
+					if (lis[x].offsetHeight) 
+						lis[x].style.display = 'none';
+					else 
+						lis[x].style.display = 'block';
+				}
+				else 
+				{
+					el = lis[x];
+					if (lis[x].className.indexOf('collapsed') == -1){
+						el.className = str_replace('expanded', 'collapsed', el.className);
+					}
+					else
+					{
+						el.className = str_replace('collapsed', 'expanded', el.className);
+					}
+				}
+			}
+		}
+		if (lis.length <= 1) window.location = url;
+	}
+	
+	
+	var str_replace = function(search, replace, subject)
+	{
+		var result = '';
+		var oldi = 0;
+		for (i = subject.indexOf (search); i > -1; i = subject.indexOf (search, i))
+		{
+			result += subject.substring (oldi, i);
+			result += replace;
+			i += search.length;
+			oldi = i;
+		}
+		return result + subject.substring(oldi, subject.length);
+	}
+	
+	
+</script>
+
+
+

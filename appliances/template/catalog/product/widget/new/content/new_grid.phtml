@@ -1,0 +1,51 @@
+<?php
+/**
+ * aheadWorks Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://ecommerce.aheadworks.com/LICENSE-M1.txt
+ *
+ * @copyright  Copyright (c) 2009-2010 aheadWorks Co. (http://www.aheadworks.com)
+ * @license    http://ecommerce.aheadworks.com/LICENSE-M1.txt
+ */
+?>
+<?php if (($_products = $this->getProductCollection()) && $_products->getSize()): ?>
+<div class="widget widget-new-products">
+    <?php /*?><div class="widget-title">
+        <h2><?php echo $this->__('New Products') ?></h2>
+    </div><?php */?>
+    <div class="widget-products">
+    <?php $_columnCount = $this->getColumnCount(); ?>
+        <?php $i=0; foreach ($_products->getItems() as $_product): ?>
+        <?php if ($i++%$_columnCount==0): ?>
+        <ul class="products-grid">
+        <?php endif ?>
+            <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
+						  <div class="bottom-cap"></div>
+                    <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(133) ?>" width="133" height="133" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" /></a>
+                    <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>)"><?php echo $this->htmlEscape($_product->getName()) ?></a></h3>
+                    <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                    <?php echo $this->getPriceHtml($_product, true, '-widget-new-grid') ?>
+                    <div class="actions">
+                        <?php if($_product->isSaleable()): ?>
+                            <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" style="float:left;" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                        <?php else: ?>
+                                <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                        <?php endif; ?>
+								<?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
+								  <a href="<?php echo $_compareUrl ?>" class="btn-link-compare" style="float:right;"><?php echo $this->__('Add to Compare') ?></a>
+								  <div style="clear:both;"></div>
+								<?php endif; ?>
+                    </div>
+                </li>
+        <?php if ($i%$_columnCount==0 || $i==count($_products)): ?>
+        </ul>
+        <?php endif ?>
+        <?php endforeach; ?>
+    </div>
+</div>
+<?php endif; ?>

@@ -1,0 +1,49 @@
+<?php
+/**
+ * aheadWorks Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://ecommerce.aheadworks.com/LICENSE-M1.txt
+ *
+ * @category   AW
+ * @package    AW_Advancedmenu
+ * @copyright  Copyright (c) 2009-2010 aheadWorks Co. (http://www.aheadworks.com)
+ * @license    http://ecommerce.aheadworks.com/LICENSE-M1.txt
+ */
+?>
+<?php $_categories = $this->getCategoriesData(); ?>
+<div class="aw-am-body aw-am-vdb">
+<div class="aw-vdd-nav aw-am-block"<?php if($this->getStyleId()): ?> id="<?php echo $this->getStyleId(); ?>"<?php endif; ?>>	
+		<?php
+		$_firstpass = true;
+		foreach ($this->getCategoriesData() as $i):
+		if ($i):
+		if ($i['level'] == 0):
+		if (!$_firstpass):
+		?>
+		</select></p><?php
+		endif;
+		$_firstpass = false;
+		?>
+		<p><select onchange="window.location.href=this.options[this.selectedIndex].value"<?php /*if ( $i['current'] && $this->confMarkCurrent() ): echo "class=\"current\""; endif;*/ ?>>
+		<option <?php if ( $i['current'] && $this->confMarkCurrent() ): echo "class=\"current\" selected=\"selected\""; endif;?>><?php echo $i['name'];?></option>
+		<option>-----------------------------------------</option>
+		<option value="<?php echo $i['Url'];?>" <?php if ( $i['current'] && $this->confMarkCurrent() ): echo "class=\"current\" selected=\"selected\""; endif;?>><?php echo $i['name'];?></option>
+		<?php
+		 else:
+		?><option value="<?php echo $i['Url'];?>"<?php if ( $i['current'] && $this->confMarkCurrent() ): echo "class=\"current\" selected=\"selected\""; endif;?>><?php
+		 for($__k=1;$__k<$i['level'];$__k++):?>&nbsp; &nbsp; &nbsp; &nbsp;<?php
+		 endfor;
+		 echo $i['name'];
+		?></option>
+		<?php
+		endif;
+		endif;
+		endforeach;
+		?>
+		</select>
+</div></div>
